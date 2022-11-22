@@ -1,0 +1,18 @@
+.marginSearch {
+    margin-right: 100px !important;
+    padding-right: 400px !important;
+}
+
+@media (max-width: 1200px) {
+    .marginSearch {
+        margin-right: 0px !important;
+        padding-right: 150px !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .marginSearch {
+        margin-right: 0px !important;
+        padding-right: 100px !important;
+    }
+}

@@ -1,0 +1,73 @@
+body {
+    background-color: #f9f9f9;
+}
+
+.cardContainer {
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    max-width: 740px;
+    margin-right: auto;
+    margin-left: auto;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
+        rgba(0, 0, 0, 0.05) 0px 5px 10px;
+}
+
+.cardContainer:hover {
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    max-width: 740px;
+    margin-right: auto;
+    margin-left: auto;
+    cursor: pointer;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+        rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.title {
+    word-break: break-word;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.linkStyle {
+    color: #007cba;
+    text-decoration: underline;
+    font-size: 1.75rem;
+    text-underline-offset: 10px;
+}
+
+.linkStyle:visited {
+    color: #007cba;
+    text-decoration: underline;
+    font-size: 1.75rem;
+    text-underline-offset: 10px;
+}
+
+.imageContainer {
+    max-width: 100%;
+}
+
+.image {
+    width: 100%;
+    height: 540px;
+    object-fit: cover;
+}
+
+.descriptionContainer {
+    max-width: 100%;
+}
+
+.description {
+    font-size: 1.15rem;
+    color: #333333;
+    word-break: break-word;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.cardInfoSize {
+    color: #333333;
+    font-size: 1rem;
+}

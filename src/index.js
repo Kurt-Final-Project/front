@@ -4,44 +4,63 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
-import Dashboard from "./pages/Dashboard";
 import Blog from "./pages/Blog";
 import Blogs from "./pages/Blogs";
-import EditCreateBlog from "./pages/EditCreateBlog";
+import CreateBlog from "./pages/CreateBlog";
+import EditBlog from "./pages/EditBlog";
 import ProtectedRoute from "./util/ProtectedRoute";
-import { UserProvider } from "./util/UserProvider";
-
-const access_token = localStorage.getItem("access_token");
+import UserProvider from "./util/UserProvider";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Login />,
+        element: <ProtectedRoute />,
+        children: [
+            {
+                children: [
+                    {
+                        path: "",
+                        element: <App />,
+                    },
+                    {
+                        path: ":blog_id",
+                        element: <Blog />,
+                    },
+                    {
+                        path: "dashboard",
+                        children: [
+                            {
+                                path: "",
+                                element: <CreateBlog />,
+                            },
+                            {
+                                path: "profile",
+                                element: <Profile />,
+                            },
+                            {
+                                path: "blog",
+                                children: [
+                                    {
+                                        path: "",
+                                        element: <Blogs />,
+                                    },
+                                    {
+                                        path: ":blog_id",
+                                        element: <EditBlog />,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
     },
     {
         path: "/signup",
         element: <Signup />,
-    },
-    {
-        path: "/dashboard",
-        element: <ProtectedRoute />,
-        children: [
-            {
-                path: "blog",
-                element: <Dashboard />,
-            },
-            {
-                path: "blog/:id",
-                element: <Blog />,
-            },
-            {
-                path: "profile",
-                element: <Profile />,
-            },
-        ],
     },
 ]);
 

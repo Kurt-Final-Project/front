@@ -1,0 +1,45 @@
+.maxWidth {
+    max-width: 50vw;
+}
+
+.flex-container {
+    background-color: #f9f9f9;
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+}
+
+.flex-child:first-child {
+    margin-right: 0px;
+}
+
+.picture-container {
+    width: 50vw;
+    height: 90vh;
+}
+
+.picture {
+    width: 100%;
+    height: 90vh;
+    object-fit: contain;
+}
+
+.login-container {
+    align-self: center;
+    margin-left: 100px;
+}
+
+@media screen and (max-width: 768px) {
+    .login-container {
+        width: 100%;
+        align-self: center;
+    }
+    .picture {
+        width: 100%;
+        height: 100vh;
+        object-fit: contain;
+        display: none;
+    }
+}

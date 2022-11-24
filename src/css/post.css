@@ -1,0 +1,63 @@
+body {
+    background-color: #f9f9f9;
+}
+
+.cardContainer1 {
+    padding: 3rem;
+    border-radius: 10px;
+    max-width: 80vw;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.title1 {
+    word-break: break-word;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.linkStyle1 {
+    color: #007cba;
+    text-decoration: underline;
+    font-size: 1.75rem;
+    text-underline-offset: 10px;
+}
+
+.linkStyle1:visited {
+    color: #007cba;
+    text-decoration: underline;
+    font-size: 1.75rem;
+    text-underline-offset: 10px;
+}
+
+.imageContainer1 {
+    position: absolute;
+    left: 0;
+    width: 100%;
+}
+
+.image1 {
+    width: 100%;
+    object-fit: cover;
+}
+
+.descriptionContainer1 {
+    max-width: 100%;
+}
+
+.description1 {
+    font-size: 1.15rem;
+    color: #333333;
+    word-break: break-word;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.cardInfoSize1 {
+    color: #333333;
+    font-size: 1rem;
+}
+
+.positioning {
+    position: relative;
+}

@@ -1,0 +1,29 @@
+.wrapper {
+    width: 600px;
+    margin-right: auto;
+}
+
+.wrapper form {
+    height: 10rem;
+    margin-bottom: 2rem;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 5px;
+    border: 2px dashed #fb771a;
+}
+
+form :where(i, p) {
+    color: #fb771a;
+}
+
+form .p {
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+.file-max-width {
+    max-width: 10rem;
+}

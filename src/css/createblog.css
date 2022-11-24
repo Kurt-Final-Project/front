@@ -1,0 +1,49 @@
+.max-width {
+    max-width: 50rem;
+}
+
+.centermoko {
+    margin: auto;
+}
+
+.cancel-outline {
+    background-color: #f9f9f9;
+    border-color: #fb771a;
+    color: #fb771a;
+}
+
+.draft-outline {
+    background-color: #f9f9f9;
+    border-color: #ce1afb;
+    color: #fb771a;
+}
+
+.wrapper {
+    width: 600px;
+    margin-right: auto;
+}
+
+.wrapper form {
+    height: 20rem;
+    margin-bottom: 2rem;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 5px;
+    border: 2px dashed #fb771a;
+}
+
+form :where(i, p) {
+    color: #fb771a;
+}
+
+form .p {
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+.file-max-width {
+    max-width: 18rem;
+}

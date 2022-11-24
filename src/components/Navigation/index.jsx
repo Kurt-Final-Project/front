@@ -6,19 +6,30 @@ import {
     BsReceiptCutoff,
     BsBoxArrowInLeft,
 } from "react-icons/bs";
+import { ImBlogger } from "react-icons/im";
 import "./nav.css";
+import { Link } from "react-router-dom";
+
+import { useUser } from "../../util/UserProvider";
 
 function Navigation({ children }) {
+    const { logoutUser } = useUser();
+
+    const logout = (e) => {
+        e.preventDefault();
+        logoutUser();
+    };
+
     return (
         <div style={{ fontSize: "20px" }}>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary pb-2 pt-2">
-                <a
-                    className="navbar-brand"
+            <nav className="navbar navbar-expand-lg navbar-dark pb-2 pt-2 nav-color stick-top">
+                <Link
+                    className="navbar-brand ml-2"
                     style={{ fontSize: "34px" }}
-                    href="/"
+                    to="/"
                 >
-                    Bulbol
-                </a>
+                    <ImBlogger className="mr-2" /> Blogcast
+                </Link>
                 <button
                     className="navbar-toggler"
                     type="button"
@@ -34,22 +45,22 @@ function Navigation({ children }) {
                 <div className="collapse navbar-collapse" id="navbarColor02">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item active">
-                            <a className="nav-link" href="#">
+                            <Link className="nav-link" to="/">
                                 <BsColumns /> Home
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">
+                            <Link className="nav-link" to="/dashboard">
                                 <BsPencil /> Create Blog
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">
+                            <Link className="nav-link" to="/dashboard/blog">
                                 <BsReceiptCutoff /> My Blogs
-                            </a>
+                            </Link>
                         </li>
                     </ul>
-                    <form className="form-inline mr-auto pr-5">
+                    <form className="form-inline mr-auto ml-auto pr-5">
                         <input
                             className="form-control form-control-lg mr-sm-auto marginSearch"
                             id="colFormLabelLg"
@@ -60,19 +71,26 @@ function Navigation({ children }) {
                     </form>
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="nav-link" href="#">
+                            <Link className="nav-link" to="/dashboard/profile">
                                 <BsPerson /> Profile
-                            </a>
+                            </Link>
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link" href="#">
+                            <a
+                                className="nav-link mr-2"
+                                style={{ cursor: "pointer" }}
+                                onClick={(e) => logout(e)}
+                            >
                                 <BsBoxArrowInLeft /> Logout
                             </a>
                         </li>
                     </ul>
                 </div>
             </nav>
+
+            <div className="pb-5"></div>
+            <div className="pb-5"></div>
             {children}
         </div>
     );

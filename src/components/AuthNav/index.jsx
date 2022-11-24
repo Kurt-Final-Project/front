@@ -2,10 +2,12 @@ import React from "react";
 import { ImBlogger } from "react-icons/im";
 import { Link } from "react-router-dom";
 import "../Navigation/nav.css";
+import Toaster from "../Toaster";
 
 function AuthNav({ children, title }) {
     return (
         <div style={{ fontSize: "20px" }}>
+            <Toaster />
             <nav className="navbar navbar-expand-lg navbar-dark pb-2 pt-2 nav-color">
                 <Link
                     className="navbar-brand ml-2"

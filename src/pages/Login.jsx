@@ -6,12 +6,12 @@ import { HiOutlineMail } from "react-icons/hi";
 import "../css/login.css";
 import AuthNav from "../components/AuthNav/index";
 import Input from "../components/Input/index";
+import Toaster from "../components/Toaster";
+import toaster from "../api/toaster";
 
 function Login() {
     document.title = "Login";
     const { setUserToken } = useUser();
-    const [error, setError] = useState();
-    const [success, setSuccess] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
     const emailInput = useRef();
@@ -22,27 +22,28 @@ function Login() {
         const email = emailInput.current.value;
         const password = passwordInput.current.value;
 
-        if (!email || !password) return setError("Please fill all the fields.");
+        if (!email || !password)
+            return toaster.error("Please fill all the fields.");
 
         setIsLoading(true);
-        setError(false);
-        setSuccess(true);
 
         try {
             const data = await loginUserAPI({
                 email,
                 password,
             });
-            setUserToken(data.token);
-            setSuccess(data.message);
+            setTimeout(() => {
+                setUserToken(data.token);
+            }, 1000);
         } catch (err) {
-            setError(err);
+            toaster.error(err);
         }
         setIsLoading(false);
     };
 
     return (
         <AuthNav title={"Signup"}>
+            <Toaster />
             <div className="flex-container mb-auto mt-auto">
                 <div className="maxWidth flex-child login-container lowWidth">
                     <div className="container-fluid">
@@ -103,7 +104,7 @@ function Login() {
                 <div className="picture-container">
                     <div className="flex-child">
                         <img
-                            src="http://localhost:8000/public/covers/bg.png"
+                            src={`${process.env.REACT_APP_SERVER_URI}/public/covers/bg.png`}
                             alt="hello"
                             className="picture"
                         />

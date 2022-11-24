@@ -11,7 +11,7 @@ const useAuth = () => {
 
 function ProtectedRoute() {
     const isAuth = useAuth();
-    return isAuth ? (
+    return isAuth !== null ? (
         <Navigation>
             <Outlet />
         </Navigation>

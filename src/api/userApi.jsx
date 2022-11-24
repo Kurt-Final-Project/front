@@ -1,3 +1,5 @@
+import toaster from "./toaster";
+
 export const loginUserAPI = async ({ email, password }) => {
     try {
         const res = await fetch(
@@ -13,9 +15,11 @@ export const loginUserAPI = async ({ email, password }) => {
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
+        toaster.success(data.message);
         return data;
     } catch (err) {
         throw err;
@@ -28,11 +32,13 @@ export const signupUserAPI = async ({
     first_name,
     last_name,
     email,
+    confirmPassword,
     uploadedFile,
 }) => {
     const signupFormData = new FormData();
     signupFormData.append("username", username);
     signupFormData.append("password", password);
+    signupFormData.append("confirmPassword", confirmPassword);
     signupFormData.append("first_name", first_name);
     signupFormData.append("last_name", last_name);
     signupFormData.append("email", email);
@@ -49,9 +55,11 @@ export const signupUserAPI = async ({
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
+        toaster.success(data.message);
         return data;
     } catch (err) {
         throw err;
@@ -72,6 +80,7 @@ export const getOneUserAPI = async (token) => {
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
@@ -106,9 +115,11 @@ export const updateUserDetailsAPI = async ({
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
+        toaster.success(data.message);
         return data;
     } catch (err) {
         throw err;
@@ -130,9 +141,11 @@ export const uploadProfilePictureAPI = async ({ uploadedFile }) => {
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
+        toaster.success(data.message);
         return data;
     } catch (err) {
         throw err;
@@ -151,9 +164,11 @@ export const updateUserPasswordAPI = async ({ password, confirmPassword }) => {
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
+        toaster.success(data.message);
         return data;
     } catch (err) {
         throw err;

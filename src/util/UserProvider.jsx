@@ -17,7 +17,9 @@ export function UserProvider({ children }) {
 
     function logoutUser() {
         localStorage.removeItem("token");
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     }
 
     return (

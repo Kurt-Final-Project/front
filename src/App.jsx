@@ -2,28 +2,24 @@ import React, { useState, useEffect } from "react";
 import Card from "./components/Card";
 import { getAllBlogsAPI } from "./api/blogApi";
 import { useUser } from "./util/UserProvider";
+import toaster from "./api/toaster";
+import Spinner from "./components/Spinner";
 
 function App() {
     const { token } = useUser();
-
     const [blogs, setBlogs] = useState([]);
-    const [error, setError] = useState();
-    const [success, setSuccess] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
     const getAllBlogs = async () => {
         setIsLoading(true);
-        setError(false);
-        setSuccess(true);
 
         try {
             const data = await getAllBlogsAPI({ token });
             setBlogs(data.blogs);
-            setSuccess(data.message);
-            console.log(data.blogs);
         } catch (err) {
-            setError(err);
+            toaster.error(err);
         }
+
         setIsLoading(false);
     };
 
@@ -33,20 +29,25 @@ function App() {
 
     return (
         <div>
-            {blogs
-                ? blogs.map((blog) => {
-                      return (
-                          <Card
-                              id={blog.id}
-                              title={blog.title}
-                              description={blog.description}
-                              cover_picture_url={blog.cover_picture_url}
-                              creator={blog.user_id.username}
-                              dateCreated={blog.createdAt}
-                          />
-                      );
-                  })
-                : "No blogs found!"}
+            {blogs?.length ? (
+                blogs.map((blog, i) => {
+                    return (
+                        <Card
+                            key={i}
+                            id={blog.id}
+                            title={blog.title}
+                            description={blog.description}
+                            cover_picture_url={blog.cover_picture_url}
+                            creator={blog.user_id.username}
+                            dateCreated={blog.createdAt}
+                        />
+                    );
+                })
+            ) : isLoading ? (
+                <Spinner />
+            ) : (
+                <div className="pt-5 ml-5">No blogs found.</div>
+            )}
         </div>
     );
 }

@@ -14,7 +14,7 @@ function Card({
     return (
         <div className="wholeContainer p-2">
             <h3 className="cardContainer">
-                <Link to={id} style={{ textDecoration: "none" }}>
+                <Link to={`/${id}`} style={{ textDecoration: "none" }}>
                     <div className="title">
                         <p className="linkStyle">{title}</p>
                     </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { SlArrowRight, SlArrowDown } from "react-icons/sl";
+import { AiFillCaretDown, AiFillCaretRight } from "react-icons/ai";
 
 function Index({ id, isFor, children, isOpen }) {
     return (
@@ -10,13 +10,16 @@ function Index({ id, isFor, children, isOpen }) {
                 aria-expanded="true"
                 aria-controls={id}
             >
-                <div className="linkStyle3 text-left">
+                <div
+                    className="linkStyle3 text-left"
+                    style={{ cursor: "pointer" }}
+                >
                     {isFor}
                     <i className="ml-5">
                         {isOpen ? (
-                            <SlArrowDown size={20} />
+                            <AiFillCaretDown size={20} />
                         ) : (
-                            <SlArrowRight size={20} />
+                            <AiFillCaretRight size={20} />
                         )}
                     </i>
                 </div>

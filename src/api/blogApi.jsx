@@ -1,3 +1,5 @@
+import toaster from "./toaster";
+
 export const getAllBlogsAPI = async ({ token }) => {
     try {
         const res = await fetch(
@@ -12,6 +14,7 @@ export const getAllBlogsAPI = async ({ token }) => {
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
@@ -21,7 +24,12 @@ export const getAllBlogsAPI = async ({ token }) => {
     }
 };
 
-export const postBlog = async ({ title, description, uploadedFile, token }) => {
+export const postBlogAPI = async ({
+    title,
+    description,
+    uploadedFile,
+    token,
+}) => {
     try {
         const postFormData = new FormData();
         postFormData.append("title", title);
@@ -33,7 +41,7 @@ export const postBlog = async ({ title, description, uploadedFile, token }) => {
             {
                 method: "POST",
                 headers: {
-                    Authorization: "Bearer " + token,
+                    Authorization: `Bearer ${token}`,
                 },
                 body: postFormData,
             }
@@ -41,9 +49,11 @@ export const postBlog = async ({ title, description, uploadedFile, token }) => {
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
+        toaster.success(data.message);
         return data;
     } catch (err) {
         throw err;
@@ -53,26 +63,27 @@ export const postBlog = async ({ title, description, uploadedFile, token }) => {
 export const postDraftAPI = async ({ title, description, token }) => {
     try {
         const res = await fetch(
-            `${process.env.REACT_APP_SERVER_URI}/api/blog/draft`,
+            `${process.env.REACT_APP_SERVER_URI}/api/blog/all`,
             {
                 method: "POST",
                 headers: {
-                    Authorization: "Bearer " + token,
+                    Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     title,
                     description,
-                    cover_picture_url: "public/covers/1.png",
                 }),
             }
         );
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
+        toaster.success(data.message);
         return data;
     } catch (err) {
         throw err;
@@ -82,17 +93,18 @@ export const postDraftAPI = async ({ title, description, token }) => {
 export const getUserBlogsAPI = async ({ token }) => {
     try {
         const res = await fetch(
-            `${process.env.REACT_APP_SERVER_URI}/api/blog/draft`,
+            `${process.env.REACT_APP_SERVER_URI}/api/blog/all`,
             {
                 method: "GET",
-                header: {
-                    Authorization: "Bearer " + token,
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 },
             }
         );
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
@@ -108,14 +120,15 @@ export const getOneBlogAPI = async ({ blog_id, token }) => {
             `${process.env.REACT_APP_SERVER_URI}/api/blog/${blog_id}`,
             {
                 method: "GET",
-                header: {
-                    Authorization: "Bearer " + token,
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 },
             }
         );
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
@@ -143,7 +156,7 @@ export const updateOneBlogAPI = async ({
             {
                 method: "PUT",
                 headers: {
-                    Authorization: "Bearer " + token,
+                    Authorization: `Bearer ${token}`,
                 },
                 body: postFormData,
             }
@@ -151,9 +164,11 @@ export const updateOneBlogAPI = async ({
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
+        toaster.success(data.message);
         return data;
     } catch (err) {
         throw err;
@@ -167,16 +182,18 @@ export const deleteOneBlogAPI = async ({ blog_id, token }) => {
             {
                 method: "DELETE",
                 headers: {
-                    Authorization: "Bearer " + token,
+                    Authorization: `Bearer ${token}`,
                 },
             }
         );
 
         const data = await res.json();
         if (!res.ok) {
+            toaster.error(data.message);
             throw { message: data.message, status: 500, errors: data.errors };
         }
 
+        toaster.success(data.message);
         return data;
     } catch (err) {
         throw err;

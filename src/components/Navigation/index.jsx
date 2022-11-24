@@ -9,8 +9,8 @@ import {
 import { ImBlogger } from "react-icons/im";
 import "./nav.css";
 import { Link } from "react-router-dom";
-
 import { useUser } from "../../util/UserProvider";
+import Toaster from "../Toaster";
 
 function Navigation({ children }) {
     const { logoutUser } = useUser();
@@ -22,6 +22,7 @@ function Navigation({ children }) {
 
     return (
         <div style={{ fontSize: "20px" }}>
+            <Toaster />
             <nav className="navbar navbar-expand-lg navbar-dark pb-2 pt-2 nav-color stick-top">
                 <Link
                     className="navbar-brand ml-2"
@@ -88,9 +89,9 @@ function Navigation({ children }) {
                     </ul>
                 </div>
             </nav>
+            <div className="pb-5"></div>
+            <div className="pb-5"></div>
 
-            <div className="pb-5"></div>
-            <div className="pb-5"></div>
             {children}
         </div>
     );

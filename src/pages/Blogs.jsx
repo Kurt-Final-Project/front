@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PerCard from "../components/PerCard";
-import "../css/sidebyside.css";
 import Accordion from "../components/Accordion/index";
+import { useUser } from "../util/UserProvider";
+import { getUserBlogsAPI } from "../api/blogApi";
+import Spinner from "../components/Spinner";
+import toaster from "../api/toaster";
+import "../css/sidebyside.css";
 
 function Blogs() {
     document.title = "User Blogs";
+    const { token } = useUser();
+
     const [openAccordionOne, setAccordionsOne] = useState(true);
     const [openAccordionTwo, setAccordionsTwo] = useState(false);
     const [openAccordionThree, setAccordionsThree] = useState(false);
@@ -20,6 +26,30 @@ function Blogs() {
         setAccordionsThree((prev) => !prev);
     };
 
+    const [postedBlogs, setPostedBlogs] = useState([]);
+    const [draftedBlogs, setDraftedBlogs] = useState([]);
+    const [deletedBlogs, setDeletedBlogs] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const getAllBlogs = async () => {
+        setIsLoading(true);
+
+        try {
+            const data = await getUserBlogsAPI({ token });
+            setPostedBlogs(data.postedBlogs);
+            setDraftedBlogs(data.draftedBlogs);
+            setDeletedBlogs(data.deletedBlogs);
+        } catch (err) {
+            toaster.error(err);
+        }
+
+        setIsLoading(false);
+    };
+
+    useEffect(() => {
+        getAllBlogs();
+    }, [token]);
+
     return (
         <div className="float-container mr-auto ml-auto">
             <div className="child" id="accordion" onClick={toggleOne}>
@@ -28,9 +58,27 @@ function Blogs() {
                     isFor={"User Posts"}
                     isOpen={openAccordionOne}
                 >
-                    <PerCard />
-                    <PerCard />
-                    <PerCard />
+                    {postedBlogs?.length ? (
+                        postedBlogs.map((blog, i) => {
+                            return (
+                                <PerCard
+                                    key={i}
+                                    id={blog.id}
+                                    title={blog.title}
+                                    description={blog.description}
+                                    cover_picture_url={blog.cover_picture_url}
+                                    creator={blog.user_id.username}
+                                    dateCreated={blog.createdAt}
+                                    is_draft={blog.is_draft}
+                                    deleted_at={blog.deleted_at}
+                                />
+                            );
+                        })
+                    ) : isLoading ? (
+                        <Spinner />
+                    ) : (
+                        <div className="pt-5 ml-5">No posted blogs found.</div>
+                    )}
                 </Accordion>
             </div>
             <div className="float-container">
@@ -40,9 +88,31 @@ function Blogs() {
                         isFor={"Drafts"}
                         isOpen={openAccordionTwo}
                     >
-                        <PerCard />
-                        <PerCard />
-                        <PerCard />
+                        {draftedBlogs?.length ? (
+                            draftedBlogs.map((blog, i) => {
+                                return (
+                                    <PerCard
+                                        key={i}
+                                        id={blog.id}
+                                        title={blog.title}
+                                        description={blog.description}
+                                        cover_picture_url={
+                                            blog.cover_picture_url
+                                        }
+                                        creator={blog.user_id.username}
+                                        dateCreated={blog.createdAt}
+                                        is_draft={blog.is_draft}
+                                        deleted_at={blog.deleted_at}
+                                    />
+                                );
+                            })
+                        ) : isLoading ? (
+                            <Spinner />
+                        ) : (
+                            <div className="pt-5 ml-5">
+                                No draft blogs found.
+                            </div>
+                        )}
                     </Accordion>
                 </div>
                 <div className="child" id="accordion" onClick={toggleThree}>
@@ -51,9 +121,31 @@ function Blogs() {
                         isFor={"Deleted"}
                         isOpen={openAccordionThree}
                     >
-                        <PerCard />
-                        <PerCard />
-                        <PerCard />
+                        {deletedBlogs?.length ? (
+                            deletedBlogs.map((blog, i) => {
+                                return (
+                                    <PerCard
+                                        key={i}
+                                        id={blog.id}
+                                        title={blog.title}
+                                        description={blog.description}
+                                        cover_picture_url={
+                                            blog.cover_picture_url
+                                        }
+                                        creator={blog.user_id.username}
+                                        dateCreated={blog.createdAt}
+                                        is_draft={blog.is_draft}
+                                        deleted_at={blog.deleted_at}
+                                    />
+                                );
+                            })
+                        ) : isLoading ? (
+                            <Spinner />
+                        ) : (
+                            <div className="pt-5 ml-5">
+                                No deleted blogs found.
+                            </div>
+                        )}
                     </Accordion>
                 </div>
             </div>

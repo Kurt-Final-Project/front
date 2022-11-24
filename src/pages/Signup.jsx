@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import { signupUserAPI } from "../api/userApi";
-import { useUser } from "../util/UserProvider";
 import { MdPassword } from "react-icons/md";
 import { BiUserVoice } from "react-icons/bi";
 import { HiOutlineMail } from "react-icons/hi";
@@ -9,13 +8,12 @@ import "../css/login.css";
 import "../css/fileupload.css";
 import AuthNav from "../components/AuthNav";
 import Input from "../components/Input/index";
+import toaster from "../api/toaster";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
     document.title = "Signup";
-    const { token } = useUser();
-    const [error, setError] = useState();
-    const [success, setSuccess] = useState();
-    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const usernameInput = useRef();
     const emailInput = useRef();
@@ -25,8 +23,8 @@ function Signup() {
     const confirmPasswordInput = useRef();
     const fileInput = useRef();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [filePreview, setPreview] = useState();
-
     const [selectedFile, setSelectedFile] = useState();
     const [isFilePicked, setIsFilePicked] = useState(false);
 
@@ -48,30 +46,34 @@ function Signup() {
         const first_name = firstNameInput.current.value;
         const last_name = lastNameInput.current.value;
         const password = passwordInput.current.value;
+        const confirmPassword = confirmPasswordInput.current.value;
+
         if (
             !email | !first_name ||
             !last_name ||
             !password ||
             !username ||
+            !confirmPassword ||
             !isFilePicked
         )
-            return setError("Please fill all the fields.");
+            return toaster.error("Please fill all the fields.");
 
         setIsLoading(true);
-        setError(false);
-        setSuccess(true);
         try {
-            const data = await signupUserAPI({
+            await signupUserAPI({
                 email,
                 password,
                 first_name,
                 last_name,
                 username,
+                confirmPassword,
                 uploadedFile: selectedFile,
             });
-            setSuccess(data.message);
+            setTimeout(() => {
+                navigate("/");
+            }, 1000);
         } catch (err) {
-            setError(err);
+            toaster.error(err);
         }
         setIsLoading(false);
     };
@@ -85,7 +87,10 @@ function Signup() {
                             <div className="col-md-5 col-lg-10">
                                 <div className="row">
                                     <div className="col-lg-6 mt-5 pt-5">
-                                        <h1 className="font-weight-bold">
+                                        <div className="pt-5"></div>
+                                        <div className="pt-5"></div>
+                                        <div className="pt-3"></div>
+                                        <h1 className="font-weight-bold pt-5">
                                             Sign up
                                         </h1>
                                         <p className="font-italic text-muted">
@@ -127,7 +132,7 @@ function Signup() {
                                         type={"text"}
                                         name={"firstname"}
                                         placeholder={"First Name"}
-                                        ref={firstNameInput}
+                                        reference={firstNameInput}
                                     />
 
                                     <Input
@@ -136,7 +141,7 @@ function Signup() {
                                         type={"text"}
                                         name={"lastname"}
                                         placeholder={"Last Name"}
-                                        ref={lastNameInput}
+                                        reference={lastNameInput}
                                     />
 
                                     <Input
@@ -145,7 +150,7 @@ function Signup() {
                                         type={"text"}
                                         name={"username"}
                                         placeholder={"Username"}
-                                        ref={usernameInput}
+                                        reference={usernameInput}
                                     />
 
                                     <Input
@@ -154,7 +159,7 @@ function Signup() {
                                         type={"text"}
                                         name={"email"}
                                         placeholder={"Email Address"}
-                                        ref={emailInput}
+                                        reference={emailInput}
                                     />
 
                                     <Input
@@ -163,25 +168,26 @@ function Signup() {
                                         type={"password"}
                                         name={"password"}
                                         placeholder={"Password"}
-                                        ref={passwordInput}
+                                        reference={passwordInput}
                                     />
 
                                     <Input
                                         compStyle={"input-group col-lg-6 mb-4"}
                                         icon={<MdPassword size={25} />}
                                         type={"password"}
-                                        name={"password"}
+                                        name={"confirmpassword"}
                                         placeholder={"Confirm Password"}
-                                        ref={confirmPasswordInput}
+                                        reference={confirmPasswordInput}
                                     />
 
                                     <div className="form-group col-lg-12 mx-auto mb-0">
                                         <button
-                                            href="#"
                                             className="btn btn-lg mt-3 text-light btn-block py-2"
                                             style={{
                                                 backgroundColor: "#fb771a",
                                             }}
+                                            onClick={(e) => signupUser(e)}
+                                            disabled={isLoading}
                                         >
                                             <span className="font-weight-light">
                                                 Create your account

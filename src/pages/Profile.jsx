@@ -1,20 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
-import { getOneUserAPI } from "../api/userApi";
+import {
+    getOneUserAPI,
+    updateUserDetailsAPI,
+    updateUserPasswordAPI,
+} from "../api/userApi";
 import { useUser } from "../util/UserProvider";
 import { MdPassword } from "react-icons/md";
 import { HiOutlineMail } from "react-icons/hi";
 import { RiUserLine } from "react-icons/ri";
 import { BiUserVoice } from "react-icons/bi";
 import Input from "../components/Input/index";
+import { useNavigate } from "react-router-dom";
+import toaster from "../api/toaster";
 import "../css/profile.css";
 import "../css/fileupload.css";
 
 function Profile() {
     document.title = "Profile";
     const { token } = useUser();
-    const [error, setError] = useState();
-    const [success, setSuccess] = useState();
-    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const usernameInput = useRef();
     const emailInput = useRef();
@@ -25,10 +29,8 @@ function Profile() {
     const confirmPasswordInput = useRef();
     const fileInput = useRef();
 
-    const [filePreview, setPreview] = useState(
-        `${process.env.REACT_APP_SERVER_URI}/public/covers/1.png`
-    );
-
+    const [isLoading, setIsLoading] = useState(false);
+    const [filePreview, setPreview] = useState(null);
     const [selectedFile, setSelectedFile] = useState();
     const [isFilePicked, setIsFilePicked] = useState(false);
 
@@ -47,22 +49,98 @@ function Profile() {
 
     const getOneUser = async () => {
         setIsLoading(true);
-        setError(false);
-        setSuccess(true);
 
         try {
             const data = await getOneUserAPI(token);
-            setSuccess(data.message);
+            const src = `${process.env.REACT_APP_SERVER_URI}/${data.user.profile_picture_url}`;
             setUser(data.user);
+            usernameInput.current.value = data.user.username;
+            emailInput.current.value = data.user.email;
+            firstNameInput.current.value = data.user.first_name;
+            lastNameInput.current.value = data.user.last_name;
+            setPreview(src);
         } catch (err) {
-            setError(err);
+            throw err;
         }
+
         setIsLoading(false);
     };
 
     useEffect(() => {
         getOneUser(); // eslint-disable-next-line
-    }, [token]);
+    }, []);
+
+    const updateUserDetails = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        const username = usernameInput.current.value;
+        const email = emailInput.current.value;
+        const first_name = firstNameInput.current.value;
+        const last_name = lastNameInput.current.value;
+
+        if (!username || !email || !first_name || !last_name)
+            return toaster.error(
+                "Please fill all the fields to updated user details."
+            );
+
+        if (
+            username === user.username &&
+            email === user.email &&
+            first_name === user.first_name &&
+            last_name === user.last_name
+        )
+            return;
+
+        try {
+            await updateUserDetailsAPI({
+                username,
+                email,
+                first_name,
+                last_name,
+                token,
+            });
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (err) {
+            throw err;
+        }
+
+        setIsLoading(false);
+    };
+
+    const updateUserPassword = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        const oldPassword = oldPasswordInput.current.value;
+        const password = newPasswordInput.current.value;
+        const confirmPassword = confirmPasswordInput.current.value;
+
+        if (!oldPassword || !password || !confirmPassword)
+            return toaster.error(
+                "Please fill all the fields to update password."
+            );
+
+        try {
+            await updateUserPasswordAPI({
+                oldPassword,
+                password,
+                confirmPassword,
+                token,
+            });
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (err) {
+            throw err;
+        }
+
+        setIsLoading(false);
+    };
 
     return (
         <div className="profile-container">
@@ -79,7 +157,6 @@ function Profile() {
                                         <img
                                             src={filePreview}
                                             className="file-max-width"
-                                            alt="preview"
                                         />
 
                                         <input
@@ -110,7 +187,7 @@ function Profile() {
                                 type={"text"}
                                 name={"firstname"}
                                 placeholder={"First Name"}
-                                ref={firstNameInput}
+                                reference={firstNameInput}
                             />
 
                             <Input
@@ -119,7 +196,7 @@ function Profile() {
                                 type={"text"}
                                 name={"lastname"}
                                 placeholder={"Last Name"}
-                                ref={lastNameInput}
+                                reference={lastNameInput}
                             />
 
                             <Input
@@ -128,7 +205,7 @@ function Profile() {
                                 type={"text"}
                                 name={"username"}
                                 placeholder={"Username"}
-                                ref={usernameInput}
+                                reference={usernameInput}
                             />
 
                             <Input
@@ -137,7 +214,7 @@ function Profile() {
                                 type={"text"}
                                 name={"email"}
                                 placeholder={"Email Address"}
-                                ref={emailInput}
+                                reference={emailInput}
                             />
 
                             <div className="form-group col-lg-12 mx-auto mb-0">
@@ -147,6 +224,7 @@ function Profile() {
                                     style={{
                                         backgroundColor: "#fb771a",
                                     }}
+                                    onClick={(e) => updateUserDetails(e)}
                                 >
                                     <span className="font-weight-light">
                                         Update Details
@@ -168,7 +246,7 @@ function Profile() {
                         type={"password"}
                         name={"oldpassword"}
                         placeholder={"Old Password"}
-                        ref={oldPasswordInput}
+                        reference={oldPasswordInput}
                     />
 
                     <Input
@@ -177,7 +255,7 @@ function Profile() {
                         type={"password"}
                         name={"newpassword"}
                         placeholder={"New Password"}
-                        ref={newPasswordInput}
+                        reference={newPasswordInput}
                     />
 
                     <Input
@@ -186,7 +264,7 @@ function Profile() {
                         type={"password"}
                         name={"confirmpassword"}
                         placeholder={"Confirm Password"}
-                        ref={confirmPasswordInput}
+                        reference={confirmPasswordInput}
                     />
 
                     <div className="form-group col-lg-12 mx-auto mb-5">
@@ -196,6 +274,7 @@ function Profile() {
                             style={{
                                 backgroundColor: "#fb771a",
                             }}
+                            onClick={(e) => updateUserPassword(e)}
                         >
                             <span className="font-weight-light">
                                 Update Password

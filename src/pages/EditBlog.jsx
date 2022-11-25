@@ -1,16 +1,20 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { MdTitle, MdOutlineDescription } from "react-icons/md";
 import Input from "../components/Input/index";
+import TextArea from "../components/TextArea/index";
 import "../css/createblog.css";
 import toaster from "../api/toaster";
-import { postBlogAPI, postDraftAPI, deleteOneBlogAPI } from "../api/blogApi";
+import {
+    updateOneBlogAPI,
+    deleteOneBlogAPI,
+    getOneBlogAPI,
+} from "../api/blogApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "../util/UserProvider";
 
 function EditBlog() {
     document.title = "Blog";
     const navigate = useNavigate();
-    const draft = false;
     const { blog_id } = useParams();
     const { token } = useUser();
 
@@ -21,6 +25,7 @@ function EditBlog() {
     const [filePreview, setPreview] = useState(null);
     const [uploadedFile, setUploadedFile] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [blog, setBlog] = useState(null);
 
     const fileChangeHandler = (e) => {
         const src = URL.createObjectURL(e.target.files[0]);
@@ -32,21 +37,44 @@ function EditBlog() {
         fileInput.current.click();
     };
 
-    const createPost = async (e) => {
+    const getOneBlog = async () => {
+        setIsLoading(true);
+
+        try {
+            const data = await getOneBlogAPI({ blog_id, token });
+            const src = `${process.env.REACT_APP_SERVER_URI}/${data.blog.cover_picture_url}`;
+            setBlog(data.blog);
+            titleInput.current.value = data.blog.title;
+            descriptionInput.current.value = data.blog.description;
+            setUploadedFile(data.blog.cover_picture_url);
+            setPreview(src);
+        } catch (err) {
+            throw err;
+        }
+
+        setIsLoading(false);
+    };
+
+    useEffect(() => {
+        getOneBlog();
+    }, []);
+
+    const updateBlog = async (e) => {
         e.preventDefault();
         setIsLoading(true);
 
         const title = titleInput.current.value;
         const description = descriptionInput.current.value;
 
-        if (!title || !description || !uploadedFile)
+        if (!title || !description)
             return toaster.error("Please fill all the fields.");
 
         try {
-            await postBlogAPI({
+            await updateOneBlogAPI({
                 title,
                 description,
                 uploadedFile,
+                blog_id,
                 token,
             });
 
@@ -54,7 +82,7 @@ function EditBlog() {
                 navigate("/");
             }, 1000);
         } catch (err) {
-            toaster.error(err);
+            throw err;
         }
 
         setIsLoading(false);
@@ -74,7 +102,7 @@ function EditBlog() {
                 navigate(-1);
             }, 1000);
         } catch (err) {
-            toaster.error(err);
+            throw err;
         }
 
         setIsLoading(false);
@@ -98,7 +126,7 @@ function EditBlog() {
                         placeholder={"Title"}
                         reference={titleInput}
                     />
-                    <Input
+                    <TextArea
                         compStyle={"input-group col-lg-12 mb-4"}
                         icon={<MdOutlineDescription size={25} />}
                         type={"description"}
@@ -149,16 +177,17 @@ function EditBlog() {
                             style={{
                                 backgroundColor: "#fb771a",
                             }}
-                            onClick={(e) => createPost(e)}
+                            onClick={(e) => updateBlog(e)}
                             disabled={isLoading}
                         >
                             <span className="font-weight-light">
-                                {draft ? "Post" : "Update"}
+                                {blog?.is_draft ? "Post" : "Update"}
                             </span>
                         </button>
                     </div>
                 </div>
             </div>
+            <div className="mb-5"></div>
         </div>
     );
 }

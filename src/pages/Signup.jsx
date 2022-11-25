@@ -73,7 +73,7 @@ function Signup() {
                 navigate("/");
             }, 1000);
         } catch (err) {
-            toaster.error(err);
+            throw err;
         }
         setIsLoading(false);
     };

@@ -8,13 +8,15 @@ import {
 } from "react-icons/bs";
 import { ImBlogger } from "react-icons/im";
 import "./nav.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useUser } from "../../util/UserProvider";
 import Toaster from "../Toaster";
 
 function Navigation({ children }) {
     const { logoutUser } = useUser();
+    const location = useLocation();
 
+    console.log(location);
     const logout = (e) => {
         e.preventDefault();
         logoutUser();
@@ -45,12 +47,24 @@ function Navigation({ children }) {
 
                 <div className="collapse navbar-collapse" id="navbarColor02">
                     <ul className="navbar-nav mr-auto">
-                        <li className="nav-item active">
+                        <li
+                            className={
+                                location.pathname === "/"
+                                    ? "nav-item active"
+                                    : "nav-item"
+                            }
+                        >
                             <Link className="nav-link" to="/">
                                 <BsColumns /> Home
                             </Link>
                         </li>
-                        <li className="nav-item">
+                        <li
+                            className={
+                                location.pathname === "/dashboard"
+                                    ? "nav-item active"
+                                    : "nav-item"
+                            }
+                        >
                             <Link className="nav-link" to="/dashboard">
                                 <BsPencil /> Create Blog
                             </Link>
@@ -71,7 +85,13 @@ function Navigation({ children }) {
                         />
                     </form>
                     <ul className="navbar-nav">
-                        <li className="nav-item">
+                        <li
+                            className={
+                                location.pathname === "/dashboard/profile"
+                                    ? "nav-item active"
+                                    : "nav-item"
+                            }
+                        >
                             <Link className="nav-link" to="/dashboard/profile">
                                 <BsPerson /> Profile
                             </Link>

@@ -10,6 +10,7 @@ function Card({
     cover_picture_url,
     creator,
     dateCreated,
+    updatedAt,
 }) {
     return (
         <div className="wholeContainer p-2">
@@ -30,18 +31,26 @@ function Card({
                     <div className="descriptionContainer my-4">
                         <p className="description">{description}</p>
                     </div>
-                    <div className="">
-                        <span className="cardInfo">
-                            <span className="mr-5 cardInfoSize">
-                                <BsPerson className="mr-3 cardText" />
-                                <span>{creator}</span>
-                            </span>
-                            <span className="mr-5 cardInfoSize">
-                                <BsCalendar3 className="mr-3 cardText" />
-                                <span className="">{dateCreated}</span>
+                    <span className="cardInfo flexcontainer">
+                        <span className="cardInfoSize">
+                            <BsPerson className="mr-2 cardText" />
+                            <span>{creator}</span>
+                        </span>
+                        <span className="cardInfoSize">
+                            <BsCalendar3 className="mr-2 cardText" />
+                            <span className="">
+                                {"Created: "}
+                                {new Date(dateCreated).toLocaleDateString()}
                             </span>
                         </span>
-                    </div>
+                        <span className="cardInfoSize">
+                            <BsCalendar3 className="mr-2 cardText" />
+                            <span className="">
+                                {"Updated: "}
+                                {new Date(updatedAt).toLocaleDateString()}
+                            </span>
+                        </span>
+                    </span>
                 </Link>
             </h3>
         </div>

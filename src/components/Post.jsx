@@ -2,7 +2,14 @@ import React from "react";
 import { BsPerson, BsCalendar3 } from "react-icons/bs";
 import "../css/post.css";
 
-function Post({ title, description, cover_picture_url, creator, dateCreated }) {
+function Post({
+    title,
+    description,
+    cover_picture_url,
+    creator,
+    dateCreated,
+    updatedAt,
+}) {
     return (
         <div className="wholeContainer1 p-2 mb-4">
             <h3 className="cardContainer1">
@@ -28,7 +35,22 @@ function Post({ title, description, cover_picture_url, creator, dateCreated }) {
                                 </span>
                                 <span className="mr-5 cardInfoSize1">
                                     <BsCalendar3 className="mr-3 cardText1" />
-                                    <span className="">{dateCreated}</span>
+                                    <span className="">
+                                        {"Created: "}
+                                        {new Date(
+                                            dateCreated
+                                        ).toLocaleDateString()}
+                                    </span>
+                                </span>
+
+                                <span className="mr-5 cardInfoSize1">
+                                    <BsCalendar3 className="mr-3 cardText1" />
+                                    <span className="">
+                                        {"Updated: "}
+                                        {new Date(
+                                            dateCreated
+                                        ).toLocaleDateString()}
+                                    </span>
                                 </span>
                             </span>
                         </div>

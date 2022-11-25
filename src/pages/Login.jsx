@@ -36,7 +36,7 @@ function Login() {
                 setUserToken(data.token);
             }, 1000);
         } catch (err) {
-            toaster.error(err);
+            throw err;
         }
         setIsLoading(false);
     };

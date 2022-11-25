@@ -1,11 +1,12 @@
 import React, { useState, useRef } from "react";
 import { MdTitle, MdOutlineDescription } from "react-icons/md";
 import Input from "../components/Input/index";
-import "../css/createblog.css";
+import TextArea from "../components/TextArea/index";
 import toaster from "../api/toaster";
 import { postBlogAPI, postDraftAPI } from "../api/blogApi";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../util/UserProvider";
+import "../css/createblog.css";
 
 function CreateBlog() {
     document.title = "Blog";
@@ -52,7 +53,7 @@ function CreateBlog() {
                 navigate("/");
             }, 1000);
         } catch (err) {
-            toaster.error(err);
+            throw err;
         }
 
         setIsLoading(false);
@@ -81,7 +82,7 @@ function CreateBlog() {
                 navigate("/");
             }, 1000);
         } catch (err) {
-            toaster.error(err);
+            throw err;
         }
 
         setIsLoading(false);
@@ -105,7 +106,7 @@ function CreateBlog() {
                         placeholder={"Title"}
                         reference={titleInput}
                     />
-                    <Input
+                    <TextArea
                         compStyle={"input-group col-lg-12 mb-4"}
                         icon={<MdOutlineDescription size={25} />}
                         type={"description"}
@@ -163,6 +164,7 @@ function CreateBlog() {
                     </div>
                 </div>
             </div>
+            <div className="mb-5"></div>
         </div>
     );
 }

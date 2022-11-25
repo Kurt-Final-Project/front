@@ -73,7 +73,7 @@ export const getOneUserAPI = async (token) => {
             {
                 method: "GET",
                 headers: {
-                    Authorization: "Bearer " + token,
+                    Authorization: `Bearer ${token}`,
                 },
             }
         );
@@ -95,13 +95,15 @@ export const updateUserDetailsAPI = async ({
     first_name,
     last_name,
     email,
+    token,
 }) => {
     try {
         const res = await fetch(
-            `${process.env.REACT_APP_SERVER_URI}/api/user/login`,
+            `${process.env.REACT_APP_SERVER_URI}/api/user/profile`,
             {
                 method: "PUT",
                 headers: {
+                    Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
@@ -126,7 +128,7 @@ export const updateUserDetailsAPI = async ({
     }
 };
 
-export const uploadProfilePictureAPI = async ({ uploadedFile }) => {
+export const uploadProfilePictureAPI = async ({ uploadedFile, token }) => {
     const signupFormData = new FormData();
     signupFormData.append("picture", uploadedFile);
 
@@ -135,6 +137,9 @@ export const uploadProfilePictureAPI = async ({ uploadedFile }) => {
             `${process.env.REACT_APP_SERVER_URI}/api/user/picture`,
             {
                 method: "PATCH",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
                 body: signupFormData,
             }
         );
@@ -152,13 +157,27 @@ export const uploadProfilePictureAPI = async ({ uploadedFile }) => {
     }
 };
 
-export const updateUserPasswordAPI = async ({ password, confirmPassword }) => {
+export const updateUserPasswordAPI = async ({
+    oldPassword,
+    password,
+    confirmPassword,
+    token,
+}) => {
+    console.log(password, oldPassword, confirmPassword);
     try {
         const res = await fetch(
             `${process.env.REACT_APP_SERVER_URI}/api/user/profile/password`,
             {
                 method: "PATCH",
-                body: JSON.stringify({ password, confirmPassword }),
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    oldPassword,
+                    password,
+                    confirmPassword,
+                }),
             }
         );
 

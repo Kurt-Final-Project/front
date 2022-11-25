@@ -13,22 +13,22 @@ function Blog() {
     const [blog, setBlog] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    const getAllBlogs = async () => {
+    const getOneBlog = async () => {
         setIsLoading(true);
 
         try {
             const data = await getOneBlogAPI({ blog_id, token });
             setBlog(data.blog);
         } catch (err) {
-            toaster.error(err);
+            throw err;
         }
 
         setIsLoading(false);
     };
 
     useEffect(() => {
-        getAllBlogs();
-    }, [token]);
+        getOneBlog();
+    }, []);
 
     return (
         <div>
@@ -39,6 +39,7 @@ function Blog() {
                     cover_picture_url={blog.cover_picture_url}
                     creator={blog.user_id.username}
                     dateCreated={blog.createdAt}
+                    updatedAt={blog.updatedAt}
                 />
             ) : isLoading ? (
                 <Spinner />

@@ -10,6 +10,7 @@ function PerCard({
     cover_picture_url,
     creator,
     dateCreated,
+    updatedAt,
     is_draft,
     deleted_at,
 }) {
@@ -33,18 +34,26 @@ function PerCard({
                     <div className="descriptionContainer2 my-4">
                         <p className="description2">{description}</p>
                     </div>
-                    <div className="">
-                        <span className="cardInfo2">
-                            <span className="mr-5 cardInfoSize2">
-                                <BsPerson className="mr-3 cardText2" />
-                                <span>{creator}</span>
-                            </span>
-                            <span className="mr-5 cardInfoSize2">
-                                <BsCalendar3 className="mr-3 cardText2" />
-                                <span className="">{dateCreated}</span>
+                    <span className="cardInfo2 flex-container2">
+                        <span className="cardInfoSize2">
+                            <BsPerson className="mr-2 cardText2" />
+                            <span>{creator}</span>
+                        </span>
+                        <span className="cardInfoSize2">
+                            <BsCalendar3 className="mr-2 cardText2" />
+                            <span className="">
+                                {"Created: "}
+                                {new Date(dateCreated).toLocaleDateString()}
                             </span>
                         </span>
-                    </div>
+                        <span className="cardInfoSize2">
+                            <BsCalendar3 className="mr-2 cardText2" />
+                            <span className="">
+                                {"Updated: "}
+                                {new Date(updatedAt).toLocaleDateString()}
+                            </span>
+                        </span>
+                    </span>
                 </Link>
             </h3>
         </div>

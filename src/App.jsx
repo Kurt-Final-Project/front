@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Card from "./components/Card";
 import { getAllBlogsAPI } from "./api/blogApi";
 import { useUser } from "./util/UserProvider";
@@ -9,6 +9,7 @@ function App() {
     const { token } = useUser();
     const [blogs, setBlogs] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const endDiv = useRef();
 
     const getAllBlogs = async () => {
         setIsLoading(true);
@@ -27,6 +28,10 @@ function App() {
         getAllBlogs();
     }, [token]);
 
+    useEffect(() => {
+        console.log(endDiv);
+    }, []);
+
     return (
         <div>
             {blogs?.length ? (
@@ -40,6 +45,7 @@ function App() {
                             cover_picture_url={blog.cover_picture_url}
                             creator={blog.user_id.username}
                             dateCreated={blog.createdAt}
+                            updatedAt={blog.updatedAt}
                         />
                     );
                 })
@@ -48,6 +54,8 @@ function App() {
             ) : (
                 <div className="pt-5 ml-5">No blogs found.</div>
             )}
+
+            <div ref={endDiv}></div>
         </div>
     );
 }

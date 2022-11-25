@@ -40,7 +40,7 @@ function Blogs() {
             setDraftedBlogs(data.draftedBlogs);
             setDeletedBlogs(data.deletedBlogs);
         } catch (err) {
-            toaster.error(err);
+            throw err;
         }
 
         setIsLoading(false);
@@ -48,7 +48,7 @@ function Blogs() {
 
     useEffect(() => {
         getAllBlogs();
-    }, [token]);
+    }, []);
 
     return (
         <div className="float-container mr-auto ml-auto">
@@ -71,6 +71,7 @@ function Blogs() {
                                     dateCreated={blog.createdAt}
                                     is_draft={blog.is_draft}
                                     deleted_at={blog.deleted_at}
+                                    updatedAt={blog.updatedAt}
                                 />
                             );
                         })
@@ -103,6 +104,7 @@ function Blogs() {
                                         dateCreated={blog.createdAt}
                                         is_draft={blog.is_draft}
                                         deleted_at={blog.deleted_at}
+                                        updatedAt={blog.updatedAt}
                                     />
                                 );
                             })
@@ -136,6 +138,7 @@ function Blogs() {
                                         dateCreated={blog.createdAt}
                                         is_draft={blog.is_draft}
                                         deleted_at={blog.deleted_at}
+                                        updatedAt={blog.updatedAt}
                                     />
                                 );
                             })
@@ -149,6 +152,7 @@ function Blogs() {
                     </Accordion>
                 </div>
             </div>
+            <div className="mb-5"></div>
         </div>
     );
 }

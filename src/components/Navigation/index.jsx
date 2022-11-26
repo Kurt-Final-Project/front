@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     BsColumns,
     BsPencil,
@@ -11,15 +11,35 @@ import "./nav.css";
 import { Link, useLocation } from "react-router-dom";
 import { useUser } from "../../util/UserProvider";
 import Toaster from "../Toaster";
+import SearchItem from "./SearchItem";
+import { getAllBlogsAPI } from "../../api/blogApi";
 
 function Navigation({ children }) {
-    const { logoutUser } = useUser();
+    const { logoutUser, token } = useUser();
     const location = useLocation();
+    const [searchItems, setSearchItems] = useState([]);
+    const searchInput = useRef();
 
-    console.log(location);
     const logout = (e) => {
         e.preventDefault();
         logoutUser();
+    };
+
+    let filterTimeout;
+    const getAllBlogs = async (e) => {
+        const query = e.target.value;
+
+        clearTimeout(filterTimeout);
+        if (!query) return setSearchItems([]);
+
+        try {
+            filterTimeout = setTimeout(async () => {
+                const data = await getAllBlogsAPI({ token, title: query });
+                setSearchItems(data.blogs);
+            }, 500);
+        } catch (err) {
+            throw err;
+        }
     };
 
     return (
@@ -69,20 +89,54 @@ function Navigation({ children }) {
                                 <BsPencil /> Create Blog
                             </Link>
                         </li>
-                        <li className="nav-item">
+                        <li
+                            className={
+                                location.pathname === "/dashboard/blog"
+                                    ? "nav-item active"
+                                    : "nav-item"
+                            }
+                        >
                             <Link className="nav-link" to="/dashboard/blog">
                                 <BsReceiptCutoff /> My Blogs
                             </Link>
                         </li>
                     </ul>
                     <form className="form-inline mr-auto ml-auto pr-5">
-                        <input
-                            className="form-control form-control-lg mr-sm-auto marginSearch"
-                            id="colFormLabelLg"
-                            type="search"
-                            placeholder="Search by title"
-                            aria-label="Search"
-                        />
+                        <div className="parentsearch">
+                            <input
+                                className="form-control form-control-lg mr-sm-auto marginSearch"
+                                id="colFormLabelLg"
+                                type="search"
+                                placeholder="Search by title"
+                                aria-label="Search"
+                                ref={searchInput}
+                                onChange={getAllBlogs}
+                            />
+                            <div className="childsearch">
+                                {searchItems?.length ? (
+                                    <div className="marginSearch searchchildren containchild">
+                                        {searchItems.map((blog, i) => {
+                                            return (
+                                                <SearchItem
+                                                    key={i}
+                                                    id={blog.id}
+                                                    title={blog.title}
+                                                    dateCreated={blog.createdAt}
+                                                    updatedAt={blog.updatedAt}
+                                                    imageURL={
+                                                        blog.cover_picture_url
+                                                    }
+                                                    reference={searchInput}
+                                                    blogSetter={setSearchItems}
+                                                />
+                                            );
+                                        })}
+                                    </div>
+                                ) : (
+                                    <span></span>
+                                )}
+                            </div>
+                        </div>
                     </form>
                     <ul className="navbar-nav">
                         <li
@@ -109,6 +163,7 @@ function Navigation({ children }) {
                     </ul>
                 </div>
             </nav>
+
             <div className="pb-5"></div>
             <div className="pb-5"></div>
 

@@ -7,16 +7,88 @@
 .marginSearch {
     margin-right: 200px !important;
     padding-right: 300px !important;
+    min-width: 100%;
+}
+
+.parentsearch {
+    position: relative;
+}
+
+.peritem {
+    margin-right: 2rem;
+}
+
+.containchild {
+    max-height: 40rem;
+    overflow-y: auto;
+    border: 1px gray dotted;
+    padding-right: 100px !important;
+}
+
+.containchild::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.containchild {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.childsearch {
+    border-radius: 8px;
+    background-color: #fff;
+    position: absolute;
+    top: 3.5rem;
 }
 
 .nav-color {
     background-color: #fb771a;
 }
 
+.imgcont {
+    height: 50px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eee;
+    margin-left: 1rem;
+    margin-right: 2rem;
+    border-radius: 5px;
+}
+
+.imgfile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.time-text {
+    font-size: 12px;
+    color: #989898;
+}
+
+.dots {
+    height: 7px;
+    width: 7px;
+    background-color: #eee;
+    display: flex;
+    border-radius: 50%;
+    margin-left: 7px;
+    margin-right: 7px;
+}
+
 @media (max-width: 1400px) {
     .marginSearch {
         margin-right: 30px !important;
         padding-right: 150px !important;
+    }
+    .containchild {
+        max-height: 40rem;
+        overflow-y: auto;
+        border: 1px gray dotted;
+        padding-right: 50px !important;
     }
 }
 
@@ -31,5 +103,11 @@
     .marginSearch {
         margin-right: 0px !important;
         padding-right: 100px !important;
+    }
+    .containchild {
+        max-height: 40rem;
+        overflow-y: auto;
+        border: 1px gray dotted;
+        padding-right: 0px !important;
     }
 }

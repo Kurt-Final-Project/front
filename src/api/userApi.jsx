@@ -134,7 +134,7 @@ export const uploadProfilePictureAPI = async ({ uploadedFile, token }) => {
 
     try {
         const res = await fetch(
-            `${process.env.REACT_APP_SERVER_URI}/api/user/picture`,
+            `${process.env.REACT_APP_SERVER_URI}/api/user/profile`,
             {
                 method: "PATCH",
                 headers: {

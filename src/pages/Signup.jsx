@@ -55,8 +55,9 @@ function Signup() {
             !username ||
             !confirmPassword ||
             !isFilePicked
-        )
+        ) {
             return toaster.error("Please fill all the fields.");
+        }
 
         setIsLoading(true);
         try {
@@ -73,6 +74,7 @@ function Signup() {
                 navigate("/");
             }, 1000);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
         setIsLoading(false);

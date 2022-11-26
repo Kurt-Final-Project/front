@@ -3,6 +3,7 @@ import {
     getOneUserAPI,
     updateUserDetailsAPI,
     updateUserPasswordAPI,
+    uploadProfilePictureAPI,
 } from "../api/userApi";
 import { useUser } from "../util/UserProvider";
 import { MdPassword } from "react-icons/md";
@@ -60,6 +61,7 @@ function Profile() {
             lastNameInput.current.value = data.user.last_name;
             setPreview(src);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
 
@@ -70,9 +72,32 @@ function Profile() {
         getOneUser(); // eslint-disable-next-line
     }, []);
 
+    const updateUserPicture = async (e) => {
+        e.preventDefault();
+
+        if (!selectedFile) return toaster.error("Please upload new picture.");
+
+        setIsLoading(true);
+
+        try {
+            await uploadProfilePictureAPI({
+                uploadedFile: selectedFile,
+                token,
+            });
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (err) {
+            setIsLoading(false);
+            throw err;
+        }
+
+        setIsLoading(false);
+    };
+
     const updateUserDetails = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
 
         const username = usernameInput.current.value;
         const email = emailInput.current.value;
@@ -92,6 +117,8 @@ function Profile() {
         )
             return;
 
+        setIsLoading(true);
+
         try {
             await updateUserDetailsAPI({
                 username,
@@ -105,6 +132,7 @@ function Profile() {
                 window.location.reload();
             }, 1000);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
 
@@ -113,7 +141,6 @@ function Profile() {
 
     const updateUserPassword = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
 
         const oldPassword = oldPasswordInput.current.value;
         const password = newPasswordInput.current.value;
@@ -123,6 +150,7 @@ function Profile() {
             return toaster.error(
                 "Please fill all the fields to update password."
             );
+        setIsLoading(true);
 
         try {
             await updateUserPasswordAPI({
@@ -136,6 +164,7 @@ function Profile() {
                 window.location.reload();
             }, 1000);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
 
@@ -173,6 +202,18 @@ function Profile() {
                                             </p>
                                         )}
                                     </form>
+                                    <button
+                                        href="#"
+                                        className="btn btn-lg mt-3 text-light btn-block py-2"
+                                        style={{
+                                            backgroundColor: "#fb771a",
+                                        }}
+                                        onClick={(e) => updateUserPicture(e)}
+                                    >
+                                        <span className="font-weight-light">
+                                            Update Picture
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
 

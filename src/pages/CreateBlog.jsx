@@ -33,14 +33,15 @@ function CreateBlog() {
 
     const createPost = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
 
         const title = titleInput.current.value;
         const description = descriptionInput.current.value;
 
-        if (!title || !description || !uploadedFile)
+        if (!title || !description || !uploadedFile) {
             return toaster.error("Please fill all the fields.");
+        }
 
+        setIsLoading(true);
         try {
             await postBlogAPI({
                 title,
@@ -53,24 +54,24 @@ function CreateBlog() {
                 navigate("/");
             }, 1000);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
-
         setIsLoading(false);
     };
 
     const createDraft = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
 
         const title = titleInput.current.value;
         const description = descriptionInput.current.value;
 
-        if (!title || !description)
+        if (!title || !description) {
             return toaster.error(
                 "Post cannot be saved to draft with empty fields."
             );
-
+        }
+        setIsLoading(true);
         try {
             await postDraftAPI({
                 title,
@@ -82,6 +83,7 @@ function CreateBlog() {
                 navigate("/");
             }, 1000);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
 

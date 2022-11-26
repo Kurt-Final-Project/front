@@ -40,6 +40,7 @@ function Blogs() {
             setDraftedBlogs(data.draftedBlogs);
             setDeletedBlogs(data.deletedBlogs);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
 

@@ -49,6 +49,7 @@ function EditBlog() {
             setUploadedFile(data.blog.cover_picture_url);
             setPreview(src);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
 
@@ -61,14 +62,14 @@ function EditBlog() {
 
     const updateBlog = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
 
         const title = titleInput.current.value;
         const description = descriptionInput.current.value;
 
-        if (!title || !description)
+        if (!title || !description) {
             return toaster.error("Please fill all the fields.");
-
+        }
+        setIsLoading(true);
         try {
             await updateOneBlogAPI({
                 title,
@@ -82,6 +83,7 @@ function EditBlog() {
                 navigate("/");
             }, 1000);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
 
@@ -102,6 +104,7 @@ function EditBlog() {
                 navigate(-1);
             }, 1000);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
 

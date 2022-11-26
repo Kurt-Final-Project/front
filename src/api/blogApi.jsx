@@ -1,16 +1,17 @@
 import toaster from "./toaster";
 
-export const getAllBlogsAPI = async ({ token }) => {
+export const getAllBlogsAPI = async ({ token, title, page }) => {
     try {
-        const res = await fetch(
-            `${process.env.REACT_APP_SERVER_URI}/api/blog`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
+        const hasTitle = title
+            ? `${process.env.REACT_APP_SERVER_URI}/api/blog/?title=${title}`
+            : `${process.env.REACT_APP_SERVER_URI}/api/blog/?page=${page}`;
+
+        const res = await fetch(hasTitle, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
         const data = await res.json();
         if (!res.ok) {

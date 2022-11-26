@@ -36,6 +36,7 @@ function Login() {
                 setUserToken(data.token);
             }, 1000);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
         setIsLoading(false);

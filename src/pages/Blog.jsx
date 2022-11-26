@@ -20,6 +20,7 @@ function Blog() {
             const data = await getOneBlogAPI({ blog_id, token });
             setBlog(data.blog);
         } catch (err) {
+            setIsLoading(false);
             throw err;
         }
 
@@ -28,7 +29,7 @@ function Blog() {
 
     useEffect(() => {
         getOneBlog();
-    }, []);
+    }, [blog_id]);
 
     return (
         <div>

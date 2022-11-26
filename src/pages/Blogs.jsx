@@ -4,7 +4,6 @@ import Accordion from "../components/Accordion/index";
 import { useUser } from "../util/UserProvider";
 import { getUserBlogsAPI } from "../api/blogApi";
 import Spinner from "../components/Spinner";
-import toaster from "../api/toaster";
 import "../css/sidebyside.css";
 
 function Blogs() {

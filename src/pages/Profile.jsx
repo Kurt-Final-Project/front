@@ -11,7 +11,6 @@ import { HiOutlineMail } from "react-icons/hi";
 import { RiUserLine } from "react-icons/ri";
 import { BiUserVoice } from "react-icons/bi";
 import Input from "../components/Input/index";
-import { useNavigate } from "react-router-dom";
 import toaster from "../api/toaster";
 import "../css/profile.css";
 import "../css/fileupload.css";
@@ -19,7 +18,6 @@ import "../css/fileupload.css";
 function Profile() {
     document.title = "Profile";
     const { token } = useUser();
-    const navigate = useNavigate();
 
     const usernameInput = useRef();
     const emailInput = useRef();
@@ -203,11 +201,11 @@ function Profile() {
                                         )}
                                     </form>
                                     <button
-                                        href="#"
                                         className="btn btn-lg mt-3 text-light btn-block py-2"
                                         style={{
                                             backgroundColor: "#fb771a",
                                         }}
+                                        disabled={isLoading}
                                         onClick={(e) => updateUserPicture(e)}
                                     >
                                         <span className="font-weight-light">
@@ -260,11 +258,11 @@ function Profile() {
 
                             <div className="form-group col-lg-12 mx-auto mb-0">
                                 <button
-                                    href="#"
                                     className="btn btn-lg mt-3 text-light btn-block py-2"
                                     style={{
                                         backgroundColor: "#fb771a",
                                     }}
+                                    disabled={isLoading}
                                     onClick={(e) => updateUserDetails(e)}
                                 >
                                     <span className="font-weight-light">
@@ -310,11 +308,11 @@ function Profile() {
 
                     <div className="form-group col-lg-12 mx-auto mb-5">
                         <button
-                            href="#"
                             className="btn btn-lg mt-3 text-light btn-block py-2"
                             style={{
                                 backgroundColor: "#fb771a",
                             }}
+                            disabled={isLoading}
                             onClick={(e) => updateUserPassword(e)}
                         >
                             <span className="font-weight-light">

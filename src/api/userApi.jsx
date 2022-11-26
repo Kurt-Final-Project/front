@@ -163,7 +163,6 @@ export const updateUserPasswordAPI = async ({
     confirmPassword,
     token,
 }) => {
-    console.log(password, oldPassword, confirmPassword);
     try {
         const res = await fetch(
             `${process.env.REACT_APP_SERVER_URI}/api/user/profile/password`,

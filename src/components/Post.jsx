@@ -9,6 +9,7 @@ function Post({
     creator,
     dateCreated,
     updatedAt,
+    profile_picture,
 }) {
     return (
         <div className="wholeContainer1 p-2 mb-4">
@@ -29,8 +30,15 @@ function Post({
                         </div>
                         <div className="">
                             <span className="cardInfo1">
+                                <span className="cardInfoSize mr-4">
+                                    <img
+                                        src={`${process.env.REACT_APP_SERVER_URI}/${profile_picture}`}
+                                        width={50}
+                                        height={50}
+                                        className="rounded-circle border border-warning"
+                                    />
+                                </span>
                                 <span className="mr-5 cardInfoSize1">
-                                    <BsPerson className="mr-3 cardText1" />
                                     <span>{creator}</span>
                                 </span>
                                 <span className="mr-5 cardInfoSize1">

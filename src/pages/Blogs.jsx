@@ -72,6 +72,9 @@ function Blogs() {
                                     is_draft={blog.is_draft}
                                     deleted_at={blog.deleted_at}
                                     updatedAt={blog.updatedAt}
+                                    profile_picture={
+                                        blog.user_id.profile_picture_url
+                                    }
                                 />
                             );
                         })
@@ -105,6 +108,9 @@ function Blogs() {
                                         is_draft={blog.is_draft}
                                         deleted_at={blog.deleted_at}
                                         updatedAt={blog.updatedAt}
+                                        profile_picture={
+                                            blog.user_id.profile_picture_url
+                                        }
                                     />
                                 );
                             })
@@ -139,6 +145,9 @@ function Blogs() {
                                         is_draft={blog.is_draft}
                                         deleted_at={blog.deleted_at}
                                         updatedAt={blog.updatedAt}
+                                        profile_picture={
+                                            blog.user_id.profile_picture_url
+                                        }
                                     />
                                 );
                             })

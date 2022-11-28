@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useUser } from "../util/UserProvider";
 import { getOneBlogAPI } from "../api/blogApi";
-import toaster from "../api/toaster";
 import Post from "../components/Post";
 import Spinner from "../components/Spinner";
 import { useParams } from "react-router-dom";
@@ -19,6 +18,7 @@ function Blog() {
         try {
             const data = await getOneBlogAPI({ blog_id, token });
             setBlog(data.blog);
+            console.log(data.blog);
         } catch (err) {
             setIsLoading(false);
             throw err;
@@ -41,6 +41,7 @@ function Blog() {
                     creator={blog.user_id.username}
                     dateCreated={blog.createdAt}
                     updatedAt={blog.updatedAt}
+                    profile_picture={blog.user_id.profile_picture_url}
                 />
             ) : isLoading ? (
                 <Spinner />

@@ -82,9 +82,6 @@ function Profile() {
                 uploadedFile: selectedFile,
                 token,
             });
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
         } catch (err) {
             setIsLoading(false);
             throw err;
@@ -124,10 +121,6 @@ function Profile() {
                 last_name,
                 token,
             });
-
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
         } catch (err) {
             setIsLoading(false);
             throw err;

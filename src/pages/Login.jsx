@@ -90,6 +90,7 @@ function Login() {
                                                     backgroundColor: "#fb771a",
                                                 }}
                                                 onClick={(e) => loginUser(e)}
+                                                disabled={isLoading}
                                             >
                                                 <span className="font-weight-light">
                                                     Login

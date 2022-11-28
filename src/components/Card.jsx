@@ -11,6 +11,7 @@ function Card({
     creator,
     dateCreated,
     updatedAt,
+    profile_picture,
 }) {
     return (
         <div className="wholeContainer p-2">
@@ -35,19 +36,27 @@ function Card({
                                 : description.slice(0, 300) + "..."}
                         </p>
                     </div>
+                    <div className="mb-5"></div>
                     <span className="cardInfo flexcontainer">
                         <span className="cardInfoSize">
-                            <BsPerson className="mr-2 cardText" />
+                            <img
+                                src={`${process.env.REACT_APP_SERVER_URI}/${profile_picture}`}
+                                width={50}
+                                height={50}
+                                className="rounded-circle border border-warning"
+                            />
+                        </span>
+                        <span className="cardInfoSize pr-4 mt-3">
                             <span>{creator}</span>
                         </span>
-                        <span className="cardInfoSize">
+                        <span className="cardInfoSize mt-3">
                             <BsCalendar3 className="mr-2 cardText" />
                             <span className="">
                                 {"Created: "}
                                 {new Date(dateCreated).toLocaleDateString()}
                             </span>
                         </span>
-                        <span className="cardInfoSize">
+                        <span className="cardInfoSize mt-3">
                             <BsCalendar3 className="mr-2 cardText" />
                             <span className="">
                                 {"Updated: "}

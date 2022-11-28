@@ -13,6 +13,7 @@ function PerCard({
     updatedAt,
     is_draft,
     deleted_at,
+    profile_picture,
 }) {
     return (
         <div className={"wholeContainer2 p-2 float-child"}>
@@ -43,18 +44,25 @@ function PerCard({
                         </p>
                     </div>
                     <span className="cardInfo2 flex-container2">
-                        <span className="cardInfoSize2">
-                            <BsPerson className="mr-2 cardText2" />
+                        <span className="cardInfoSize">
+                            <img
+                                src={`${process.env.REACT_APP_SERVER_URI}/${profile_picture}`}
+                                width={50}
+                                height={50}
+                                className="rounded-circle border border-warning"
+                            />
+                        </span>
+                        <span className="cardInfoSize2 pr-4 mt-3">
                             <span>{creator}</span>
                         </span>
-                        <span className="cardInfoSize2">
+                        <span className="cardInfoSize2 mt-3">
                             <BsCalendar3 className="mr-2 cardText2" />
                             <span className="">
                                 {"Created: "}
                                 {new Date(dateCreated).toLocaleDateString()}
                             </span>
                         </span>
-                        <span className="cardInfoSize2">
+                        <span className="cardInfoSize2 mt-3">
                             <BsCalendar3 className="mr-2 cardText2" />
                             <span className="">
                                 {"Updated: "}

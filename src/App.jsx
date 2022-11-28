@@ -26,6 +26,8 @@ function App() {
                 perPage: perPage,
             });
             setBlogs(data.blogs);
+            console.log(data.blogs);
+
             setCurrentPage(data.currentPage);
             setPerPage(data.perPage);
             setHasPreviousPage(data.hasPreviousPage);
@@ -63,6 +65,7 @@ function App() {
                             creator={blog.user_id.username}
                             dateCreated={blog.createdAt}
                             updatedAt={blog.updatedAt}
+                            profile_picture={blog.user_id.profile_picture_url}
                         />
                     );
                 })

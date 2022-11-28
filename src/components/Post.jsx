@@ -48,7 +48,7 @@ function Post({
                                     <span className="">
                                         {"Updated: "}
                                         {new Date(
-                                            dateCreated
+                                            updatedAt
                                         ).toLocaleDateString()}
                                     </span>
                                 </span>

@@ -29,7 +29,11 @@ function Card({
                     </div>
 
                     <div className="descriptionContainer my-4">
-                        <p className="description">{description}</p>
+                        <p className="description">
+                            {description.length < 300
+                                ? description
+                                : description.slice(0, 300) + "..."}
+                        </p>
                     </div>
                     <span className="cardInfo flexcontainer">
                         <span className="cardInfoSize">

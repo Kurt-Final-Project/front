@@ -18,7 +18,11 @@ function PerCard({
         <div className={"wholeContainer2 p-2 float-child"}>
             <h3 className="cardContainer2">
                 <Link
-                    to={`/dashboard/blog/${id}`}
+                    to={
+                        deleted_at === null
+                            ? `/dashboard/blog/${id}`
+                            : "/dashboard/blog/"
+                    }
                     style={{ textDecoration: "none" }}
                 >
                     <div className="title2">{title}</div>
@@ -32,7 +36,11 @@ function PerCard({
                     </div>
 
                     <div className="descriptionContainer2 my-4">
-                        <p className="description2">{description}</p>
+                        <p className="description2">
+                            {description.length < 300
+                                ? description
+                                : description.slice(0, 300) + "..."}
+                        </p>
                     </div>
                     <span className="cardInfo2 flex-container2">
                         <span className="cardInfoSize2">

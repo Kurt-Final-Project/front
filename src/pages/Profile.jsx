@@ -82,7 +82,6 @@ function Profile() {
                 uploadedFile: selectedFile,
                 token,
             });
-
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
